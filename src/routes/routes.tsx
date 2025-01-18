@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         children:adminRoutes
     },
     // {
-    //     path:"/faculty",
+    //     path:"/faculty",1
     //     element:<App/>,
     //     children:adminPaths
     // },
