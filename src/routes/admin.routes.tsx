@@ -89,6 +89,7 @@ const adminPaths = [
                 });
             });
         }
+        console.log(acc);
         return acc;
     }, [])
 
