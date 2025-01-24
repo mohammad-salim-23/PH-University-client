@@ -4,16 +4,6 @@ import CreateAdmin from "../pages/admin/CreateAdmin";
 import CreateFaculty from "../pages/admin/CreateFaculty";
 import CreateStudent from "../pages/admin/CreateStudent";
 
-
-// type TRoute = {
-//     path:string;
-//     element:ReactNode
-// }
-// type TSidebarItem = {
-//     key:string;
-//     label:ReactNode;
-//     children?: TSidebarItem[]
-// };
 export const adminPaths = [
   {
     name: "Dashboard",
@@ -47,7 +37,7 @@ export const adminPaths = [
   },
   
 ];
-  // export const adminSidebarItems = adminPaths.reduce(
+
   //   (acc: TSidebarItem[], item)=>{
   //       if(item.path && item.name){
   //           acc.push({
