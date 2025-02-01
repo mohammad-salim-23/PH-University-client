@@ -20,7 +20,7 @@ const baseQuery = fetchBaseQuery({
     let result = await baseQuery(args , api , extraOptions);
     
     if(result?.error?.status === 404){
-        toast.error("User Not Found1")
+        toast.error(result.error.data.message)
     }
     if(result?.error?.status === 401){
         console.log('Sending Refresh token');

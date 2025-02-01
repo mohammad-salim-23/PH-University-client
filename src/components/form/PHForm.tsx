@@ -1,18 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Form } from "antd";
 import { ReactNode } from "react";
 import { FieldValues, FormProvider, SubmitHandler, useForm } from "react-hook-form"
 
 type TFromconfig = {
     defaultValues?: Record<string, any>;
+    resolver? :any
 }
 type TFromProps = {
     onSubmit : SubmitHandler<FieldValues>;
     children: ReactNode;
 } & TFromconfig;
-const PHForm = ({onSubmit, children, defaultValues}: TFromProps) =>{
+const PHForm = ({onSubmit, children, defaultValues, resolver}: TFromProps) =>{
     const formConfig: TFromconfig = {};
     if(defaultValues){
         formConfig['defaultValues'] = defaultValues;
+    }
+    if(resolver){
+        formConfig['resolver'] = resolver;
     }
     const methods = useForm(formConfig);
     return (
