@@ -1,15 +1,26 @@
+import { useParams } from "react-router-dom";
+import { TResponseRedux } from "../../../types";
+import { TAcademicSemester } from "../../../types/academicManagement.type";
 import { baseApi } from "../../api/baseapi";
 const academicManagementApi = baseApi.injectEndpoints({
     endpoints: (builder) =>({
         getAllSemesters: builder.query({
-            query: ()=>({
-                url: '/academic-semesters',
-                method:'GET'
-            }),
-            transformResponse: (response)=>{
+            query: (args)=>{
+                const params = new URLSearchParams()
+                
+             params.append(args[0].name,args[0].value)
+
+                return {
+                    url: '/academic-semesters',
+                method:'GET',
+                params: params
+                }
+            },
+            
+            transformResponse: (response: TResponseRedux<TAcademicSemester[]>)=>{
 
                 return{
-                    data: response.data,
+                data: response.data,
                     meta: response.meta
                 }
             }
