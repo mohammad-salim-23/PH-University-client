@@ -30,7 +30,6 @@ export type TAcademicFaculty={
 export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
 
 export type TAcademicDepartment = {
-    _id: string;
     name: string;
     academicFaculty: TAcademicFaculty; 
 };

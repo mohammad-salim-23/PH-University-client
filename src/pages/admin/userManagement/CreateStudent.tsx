@@ -1,8 +1,12 @@
-import { Button, Col, Divider, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
-import { FieldValues, SubmitHandler } from "react-hook-form";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
 import PHSelect from "../../../components/form/PHSelect";
+import { bloodGroupOptions, genderOptions } from "../../../constants/global";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement.api";
+import { useGetAllAcademicDepartmentQuery, useGetAllSemestersQuery } from "../../../redux/features/admin/academicManagement.api";
+import PHDatePicker from "../../../components/form/PHDatePicker";
 
 const studentDummyData = {
   password: 'student123',
@@ -39,8 +43,8 @@ const studentDummyData = {
       address: '789 Pine St, Villageton',
     },
 
-    admissionSemester: '65bb60ebf71fdd1add63b1c0',
-    academicDepartment: '65b4acae3dc8d4f3ad83e416',
+    admissionSemester: '679c71b65706645ef506e849',
+    academicDepartment: '6756bb67effa57ba77f55fc1',
   },
 };
 
@@ -55,7 +59,7 @@ const studentDefaultValues = {
   gender: 'male',
 
   bloogGroup: 'A+',
-
+ 
   contactNo: '1235678',
   emergencyContactNo: '987-654-3210',
   presentAddress: '123 Main St, Cityville',
@@ -77,74 +81,115 @@ const studentDefaultValues = {
     address: '789 Pine St, Villageton',
   },
 
-  admissionSemester: '65bb60ebf71fdd1add63b1c0',
-  academicDepartment: '65b4acae3dc8d4f3ad83e416',
+  admissionSemester: '679c71b65706645ef506e849',
+  academicDepartment: '6756bb67effa57ba77f55fc1',
 };
 const CreateStudent = () =>{
+  const [addStudent, {data, error}] = useAddStudentMutation();
+
+  const {data: sData, isLoading:sIsLoading} = useGetAllSemestersQuery(undefined);
+  
+   const {data:dData, isLoading: dIsLoading} = useGetAllAcademicDepartmentQuery(undefined);
+  
+  const semesterOptions = sData?.data?.map((item)=>({
+    value: item._id,
+    label: `${item.name} ${item.year}`
+  }));
+  const departmentOptions = dData?.data?.map((item: { _id: any; name: any; })=>({
+    value: item._id,
+    label: item.name
+  }))
    const onSubmit: SubmitHandler<FieldValues> = (data)=>{
-    // console.log(data);
+
+    const studentData = {
+      password: 'student123',
+      student: data
+    }
     const formData = new FormData();
-    formData.append('data', JSON.stringify(data));
-    //This is for development
-    //just for checking
-    console.log(Object.fromEntries(formData));
+    formData.append('data', JSON.stringify(studentData));
+    // formData.append('file', data.image);
+    addStudent(formData);
+    console.log(formData);
+    // //This is for development
+    // //just for checking
+    // console.log(Object.fromEntries(formData));
    }
     return(
-        <Row>
-         <Col span={24}>
-         <PHForm onSubmit={onSubmit}>
-          <Divider>Personal Info</Divider>
-             <Row gutter={8}>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="name.firstName" label="First Name"/>
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="name.middleName" label="Middle Name"/>
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="name.lastName" label="Last Name"/>
-
-             </Col>
-           
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="gender" label="Gender"/>
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="dateOfBirth" label="Date Of Birth"/>
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="blooGroup" label="Blood Group"/>
+      <Row justify="center">
+      <Col span={24}>
+        <PHForm onSubmit={onSubmit} defaultValues={studentDefaultValues}>
+          <Divider>Personal Info.</Divider>
+          <Row gutter={8}>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput type="text" name="name.firstName" label="First Name" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput type="text" name="name.middleName" label="Middle Name" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput type="text" name="name.lastName" label="Last Name" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHSelect options={genderOptions} name="gender" label="Gender" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHDatePicker name="dateOfBirth" label="Date Of Birth" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
              
-             </Col>
-             </Row>
-             <Divider>Contact Info</Divider>
-             {/* eikane gutter 8 mane column er modder horizpntal gap hobe */}
-            <Row gutter={8}>
-
-            <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="email" label="Email"/>
-             
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="contactNo" label="Contact Number"/>
-             
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name=" emergencyContactNo" label="Emergency Contact Number"/>
-             
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="presentAddress" label="presentAddress"/>
-             
-             </Col>
-             <Col span={24} md={{span:12}} lg={{span:8}}>
-             <PHInput type="text" name="permanentAddress" label="permanentAddress"/>
-             
-             </Col>
-            </Row>
-
-             <Divider>Guardian Info</Divider>
-            
+              <PHSelect
+                options={bloodGroupOptions}
+                name="bloogGroup"
+                label="Blood group"
+              />
+            </Col>
+            {/* <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}> */}
+              <Controller
+               name="image"
+               render={({field: {onChange, value, ...field}})=>(
+                <Form.Item label="Picture">
+                  <Input
+                  type="file"
+                  value={value?.fileName}
+                  {...field}
+                  onChange={(e)=>onChange(e.target.files?.[0])}
+                  />
+                </Form.Item>
+               )}
+              />
+            {/* </Col> */}
+          </Row>
+          <Divider>Contact Info.</Divider>
+          <Row gutter={8}>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput type="text" name="email" label="Email" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput type="text" name="contactNo" label="Contact" />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput
+                type="text"
+                name="emergencyContactNo"
+                label="Emergency Contact"
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput
+                type="text"
+                name="presentAddress"
+                label="Present Address"
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <PHInput
+                type="text"
+                name="permanentAddress"
+                label="Permanent Address"
+              />
+            </Col>
+          </Row>
+          <Divider>Guardian</Divider>
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHInput
@@ -220,25 +265,26 @@ const CreateStudent = () =>{
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
-               
+               options={semesterOptions}
+               disabled={sIsLoading}
                 name="admissionSemester"
                 label="Admission Semester"
               />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
-               
+                options={departmentOptions}
+                disabled={dIsLoading}
                 name="academicDepartment"
-                label="Admission Department"
+                label="Academic Department"
               />
             </Col>
           </Row>
-             
-             
-             <Button htmlType="submit">Submit</Button>
+
+          <Button htmlType="submit">Submit</Button>
         </PHForm>
-         </Col>
-        </Row>
+      </Col>
+    </Row>
     )
 }
 export default CreateStudent;
