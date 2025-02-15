@@ -1,4 +1,4 @@
-import { Button, Pagination, Space, Table, TableColumnsType, TableProps } from "antd";
+import { Button, Pagination, Space, Table, TableColumnsType, TableProps, Modal } from "antd";
 import { TQueryParam, TStudent } from "../../../types";
 import { useGetAllStudentsQuery } from "../../../redux/features/admin/userManagement.api";
 import { useState } from "react";

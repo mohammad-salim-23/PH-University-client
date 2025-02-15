@@ -85,7 +85,7 @@ const studentDefaultValues = {
   academicDepartment: '6756bb67effa57ba77f55fc1',
 };
 const CreateStudent = () =>{
-  const [addStudent, {data, error}] = useAddStudentMutation();
+  const [addStudent] = useAddStudentMutation();
 
   const {data: sData, isLoading:sIsLoading} = useGetAllSemestersQuery(undefined);
   
