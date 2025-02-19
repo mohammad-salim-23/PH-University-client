@@ -115,8 +115,10 @@ const courseManagementApi = baseApi.injectEndpoints({
                     }),
                     invalidatesTags: ['courses']
                 })   
+                
                    
                }) 
+               
 });
 export const {useAddRegisteredSemesterMutation, useGetAllRegisteredSemestersQuery, useUpdateRegisteredSemesterMutation,
     useGetAllCoursesQuery,

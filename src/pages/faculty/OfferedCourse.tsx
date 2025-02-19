@@ -1,7 +1,10 @@
+
+
 const OfferedCourse = () =>{
+   
     return(
         <div>
-            <h1>This is OfferedCourse component</h1>
+            <h1>This is OfferedCourse componen</h1>
         </div>
     )
 }

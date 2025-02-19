@@ -4,7 +4,7 @@ import { adminPaths } from "../../routes/admin.routes";
 import { facultyPaths } from "../../routes/faculty.routes";
 import { studentPaths } from "../../routes/student.routes";
 import { useAppSelector } from "../../redux/hooks";
-import { selectCurrentUser, TUser, useCurrenttoken } from "../../redux/features/auth/authSlice";
+import { TUser, useCurrenttoken } from "../../redux/features/auth/authSlice";
 import { verifyToken } from "../../utils/verifyToken";
 const {  Sider } = Layout;
 const userRole={

@@ -21,6 +21,7 @@ const OffereCourse= ()=>{
    const {data : academicFacultyData} = useGetAcademicFacultiesQuery(undefined);
 
    const {data : academicDepartmentData} = useGetAllAcademicDepartmentQuery(undefined);
+
   const {data : coursesData} = useGetAllCoursesQuery(undefined);
 
   const {data: facultiesData, isFetching: fetchingFaculties} = useGetCourseFacultiesQuery(courseId, {skip: !courseId});
@@ -36,13 +37,11 @@ const OffereCourse= ()=>{
     value: item._id,
     label : item.name
    }));
-   const academicDepartmentOptions = academicDepartmentData?.data?.map(
-    (item) => ({
-      value: item._id,
-      label: item.name,
-    })
-  );
-
+   const academicDepartmentOptions = academicDepartmentData?.data?.map((item)=>({
+    value: item._id,
+    label : item.name
+   }));
+ 
   const courseOptions = coursesData?.data?.map((item) => ({
     value: item._id,
     label: item.title,
@@ -55,7 +54,8 @@ const OffereCourse= ()=>{
     const onSubmit : SubmitHandler<FieldValues> = async(data) =>{
         const offeredCourseData = {
             ...data,
-            maxCapacity : Number(data.section),
+            maxCapacity : Number(data.maxCapacity),
+            section : Number(data.section),
             startTime : moment(new Date(data.startTime)).format('HH:mm'),
             endTime: moment(new Date(data.endTime)).format('HH:mm'),
         };

@@ -18,6 +18,9 @@ const ProtectedRoute = ({children, role}:TProtectedRoute )=>{
 
     const dispatch = useAppDispatch();
     console.log(user);
+    if(!user){
+        <p>Loading...</p>
+    }
     console.log(role);
     if(role !== undefined && role !== (user as TUser)?.role){
         dispatch(logout());
